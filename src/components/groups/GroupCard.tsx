@@ -1,4 +1,6 @@
+
 import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ProgressBar from "../ui/ProgressBar";
 
 interface GroupCardProps {
@@ -23,42 +25,109 @@ const GroupCard: React.FC<GroupCardProps> = ({
   const progressPercentage = (memberCount / totalMembers) * 100;
 
   return (
-    <div className="border border bg-white p-4 rounded-xl">
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex flex-col gap-1">
-          <div className="text-slate-800 text-base font-bold leading-6">
-            {title}
-          </div>
-          <div className="text-slate-500 text-sm leading-[21px]">
-            Duration: {duration}
-          </div>
-        </div>
-        <button
-          className="bg-indigo-600 text-white text-xs leading-[18px] px-3 py-1.5 rounded-md"
-          onClick={onViewDetails}
-        >
-          View Details
-        </button>
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <div className="text-slate-500 text-sm leading-[21px]">Members</div>
-          <div className="text-slate-800 text-sm font-bold leading-[21px]">
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subtitle}>Duration: {duration}</Text>
+        </View>
+        <TouchableOpacity style={styles.viewButton} onPress={onViewDetails}>
+          <Text style={styles.viewButtonText}>View Details</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.content}>
+        <View style={styles.membersRow}>
+          <Text style={styles.membersLabel}>Members</Text>
+          <Text style={styles.membersCount}>
             {memberCount}/{totalMembers}
-          </div>
-        </div>
+          </Text>
+        </View>
         <ProgressBar progress={progressPercentage} />
-        <div className="flex justify-between items-center">
-          <div className="text-slate-800 text-base font-bold leading-6">
-            {monthlyAmount}/month
-          </div>
-          <div className="text-slate-500 text-sm leading-[21px]">
-            Next Payout: {nextPayout}
-          </div>
-        </div>
-      </div>
-    </div>
+        <View style={styles.payoutRow}>
+          <Text style={styles.monthlyAmount}>{monthlyAmount}/month</Text>
+          <Text style={styles.nextPayout}>Next Payout: {nextPayout}</Text>
+        </View>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    backgroundColor: "white",
+    padding: 16,
+    borderRadius: 12,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 8,
+  },
+  titleContainer: {
+    flexDirection: "column",
+    gap: 4,
+  },
+  title: {
+    color: "#1E293B", // slate-800
+    fontSize: 16,
+    fontWeight: "bold",
+    lineHeight: 24,
+  },
+  subtitle: {
+    color: "#64748B", // slate-500
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  viewButton: {
+    backgroundColor: "#4F46E5", // indigo-600
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  viewButtonText: {
+    color: "white",
+    fontSize: 12,
+    lineHeight: 18,
+  },
+  content: {
+    flexDirection: "column",
+    gap: 8,
+  },
+  membersRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  membersLabel: {
+    color: "#64748B", // slate-500
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  membersCount: {
+    color: "#1E293B", // slate-800
+    fontSize: 14,
+    fontWeight: "bold",
+    lineHeight: 21,
+  },
+  payoutRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  monthlyAmount: {
+    color: "#1E293B", // slate-800
+    fontSize: 16,
+    fontWeight: "bold",
+    lineHeight: 24,
+  },
+  nextPayout: {
+    color: "#64748B", // slate-500
+    fontSize: 14,
+    lineHeight: 21,
+  },
+});
 
 export default GroupCard;

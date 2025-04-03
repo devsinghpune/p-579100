@@ -1,5 +1,6 @@
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
 
-createRoot(document.getElementById("root")!).render(<App />);
+// This file is just a bridge to support existing imports
+// In React Native, we'll use the App.tsx file directly
+import App from './App';
+
+export default App;

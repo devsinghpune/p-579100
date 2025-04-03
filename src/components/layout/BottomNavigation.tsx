@@ -1,10 +1,13 @@
+
 import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { SvgXml } from "react-native-svg";
 
 type NavItem = {
   name: string;
   icon: string;
   isActive?: boolean;
-  onClick?: () => void;
+  onPress?: () => void;
 };
 
 interface BottomNavigationProps {
@@ -13,31 +16,55 @@ interface BottomNavigationProps {
 
 const BottomNavigation: React.FC<BottomNavigationProps> = ({ items }) => {
   return (
-    <nav className="border border bg-white p-4">
-      <div className="flex justify-around items-center">
+    <View style={styles.nav}>
+      <View style={styles.navContainer}>
         {items.map((item, index) => (
-          <div
+          <TouchableOpacity
             key={index}
-            className="flex flex-col items-center gap-1 cursor-pointer"
-            onClick={item.onClick}
+            style={styles.navItem}
+            onPress={item.onPress}
           >
-            <div>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: item.icon,
-                }}
-              />
-            </div>
-            <span
-              className={`text-xs leading-[18px] ${item.isActive ? "text-indigo-600" : "text-slate-500"}`}
+            <SvgXml xml={item.icon} width={24} height={24} />
+            <Text
+              style={[
+                styles.navText,
+                item.isActive ? styles.activeNavText : null,
+              ]}
             >
               {item.name}
-            </span>
-          </div>
+            </Text>
+          </TouchableOpacity>
         ))}
-      </div>
-    </nav>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  nav: {
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    backgroundColor: "white",
+    padding: 16,
+  },
+  navContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  navItem: {
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 4,
+  },
+  navText: {
+    fontSize: 12,
+    lineHeight: 18,
+    color: "#64748B", // slate-500
+  },
+  activeNavText: {
+    color: "#4F46E5", // indigo-600
+  },
+});
 
 export default BottomNavigation;

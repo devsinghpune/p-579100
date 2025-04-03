@@ -1,27 +1,41 @@
+
 import React from "react";
+import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
+import { Svg, Path } from "react-native-svg";
 
 interface FilterButtonProps {
   label: string;
-  onClick?: () => void;
+  onPress?: () => void;
 }
 
-const FilterButton: React.FC<FilterButtonProps> = ({ label, onClick }) => {
+const FilterButton: React.FC<FilterButtonProps> = ({ label, onPress }) => {
   return (
-    <button
-      className="bg-[#D9D9D9] text-sm px-3 py-2 rounded-md flex items-center"
-      onClick={onClick}
-    >
-      <span>{label}</span>
-      <div>
-        <div
-          dangerouslySetInnerHTML={{
-            __html:
-              '<svg id="2010:2667" layer-name="Vector" width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="inline-block ml-[4px]"> <path d="M9 1H1L5 9L9 1Z" stroke="black"></path> </svg>',
-          }}
-        />
-      </div>
-    </button>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.iconContainer}>
+        <Svg width={10} height={11} viewBox="0 0 10 11" fill="none">
+          <Path d="M9 1H1L5 9L9 1Z" stroke="black" />
+        </Svg>
+      </View>
+    </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#D9D9D9",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  label: {
+    fontSize: 14,
+  },
+  iconContainer: {
+    marginLeft: 4,
+  },
+});
 
 export default FilterButton;

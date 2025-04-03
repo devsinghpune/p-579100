@@ -1,4 +1,6 @@
+
 import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ProgressBar from "../ui/ProgressBar";
 
 interface ActiveGroupCardProps {
@@ -25,47 +27,120 @@ const ActiveGroupCard: React.FC<ActiveGroupCardProps> = ({
   const progressPercentage = (memberCount / totalMembers) * 100;
 
   return (
-    <div className="border border bg-white p-4 rounded-xl">
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex flex-col gap-1">
-          <div className="text-slate-800 text-base font-bold leading-6">
-            {title}
-          </div>
-          <div className="text-slate-500 text-sm leading-[21px]">
-            Duration: {duration}
-          </div>
-          <div className="text-slate-500 text-sm leading-[21px]">
-            Location: {location}
-          </div>
-        </div>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subtitle}>Duration: {duration}</Text>
+          <Text style={styles.subtitle}>Location: {location}</Text>
+        </View>
         {isOpen && (
-          <div className="text-[#1FAF38] text-xs leading-[18px] bg-[rgba(31,175,56,0.10)] px-2.5 py-1 rounded-2xl">
-            Open
-          </div>
+          <View style={styles.openBadge}>
+            <Text style={styles.openBadgeText}>Open</Text>
+          </View>
         )}
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center">
-          <div className="text-slate-500 text-sm leading-[21px]">Members</div>
-          <div className="text-slate-800 text-sm font-bold leading-[21px]">
+      </View>
+      <View style={styles.content}>
+        <View style={styles.membersRow}>
+          <Text style={styles.membersLabel}>Members</Text>
+          <Text style={styles.membersCount}>
             {memberCount}/{totalMembers}
-          </div>
-        </div>
+          </Text>
+        </View>
         <ProgressBar progress={progressPercentage} />
-        <div className="flex justify-between items-center">
-          <div className="text-slate-800 text-base font-bold leading-6">
-            {monthlyAmount}/month
-          </div>
-          <button
-            className="bg-indigo-600 text-white text-sm leading-[21px] px-4 py-2 rounded-lg"
-            onClick={onJoinNow}
-          >
-            Join Now
-          </button>
-        </div>
-      </div>
-    </div>
+        <View style={styles.joinRow}>
+          <Text style={styles.monthlyAmount}>{monthlyAmount}/month</Text>
+          <TouchableOpacity style={styles.joinButton} onPress={onJoinNow}>
+            <Text style={styles.joinButtonText}>Join Now</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    backgroundColor: "white",
+    padding: 16,
+    borderRadius: 12,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 8,
+  },
+  titleContainer: {
+    flexDirection: "column",
+    gap: 4,
+  },
+  title: {
+    color: "#1E293B", // slate-800
+    fontSize: 16,
+    fontWeight: "bold",
+    lineHeight: 24,
+  },
+  subtitle: {
+    color: "#64748B", // slate-500
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  openBadge: {
+    backgroundColor: "rgba(31, 175, 56, 0.10)",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 16,
+  },
+  openBadgeText: {
+    color: "#1FAF38", // green
+    fontSize: 12,
+    lineHeight: 18,
+  },
+  content: {
+    flexDirection: "column",
+    gap: 8,
+  },
+  membersRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  membersLabel: {
+    color: "#64748B", // slate-500
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  membersCount: {
+    color: "#1E293B", // slate-800
+    fontSize: 14,
+    fontWeight: "bold",
+    lineHeight: 21,
+  },
+  joinRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  monthlyAmount: {
+    color: "#1E293B", // slate-800
+    fontSize: 16,
+    fontWeight: "bold",
+    lineHeight: 24,
+  },
+  joinButton: {
+    backgroundColor: "#4F46E5", // indigo-600
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  joinButtonText: {
+    color: "white",
+    fontSize: 14,
+    lineHeight: 21,
+  },
+});
 
 export default ActiveGroupCard;
